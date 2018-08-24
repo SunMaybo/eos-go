@@ -4,7 +4,7 @@ import (
 	"encoding/hex"
 	"log"
 
-	"github.com/eoscanada/eos-go/p2p"
+	"github.com/SunMaybo/eos-go/p2p"
 )
 
 func main() {

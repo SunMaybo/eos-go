@@ -16,7 +16,7 @@ import (
 
 	"io/ioutil"
 
-	"github.com/eoscanada/eos-go/ecc"
+	"github.com/SunMaybo/eos-go/ecc"
 )
 
 var TypeSize = struct {

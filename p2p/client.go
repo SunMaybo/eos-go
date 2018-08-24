@@ -5,7 +5,7 @@ import (
 	"log"
 	"sync"
 
-	"github.com/eoscanada/eos-go"
+	"github.com/SunMaybo/eos-go"
 )
 
 type Client struct {
