@@ -61,14 +61,14 @@ type DBSizeResp struct {
 	FreeBytes JSONInt64 `json:"free_bytes"`
 	UsedBytes JSONInt64 `json:"used_bytes"`
 	Size      JSONInt64 `json:"size"`
-	Indices   []struct {
+	Indices []struct {
 		Index    string    `json:"index"`
 		RowCount JSONInt64 `json:"row_count"`
 	} `json:"indices"`
 }
 
 type TransactionResp struct {
-	ID      SHA256Bytes `json:"id"`
+	ID SHA256Bytes `json:"id"`
 	Receipt struct {
 		Status            TransactionStatus `json:"status"`
 		CPUUsageMicrosec  int               `json:"cpu_usage_us"`
@@ -171,6 +171,7 @@ type AccountResp struct {
 	VoterInfo              VoterInfo            `json:"voter_info"`
 }
 
+
 type CurrencyBalanceResp struct {
 	EOSBalance        Asset    `json:"eos_balance"`
 	StakedBalance     Asset    `json:"staked_balance"`
@@ -239,6 +240,10 @@ type Currency struct {
 type GetRequiredKeysResp struct {
 	RequiredKeys []ecc.PublicKey `json:"required_keys"`
 }
+
+type AccountsResp struct {
+	AccountNames []string `json:"account_names"`
+} 
 
 // PushTransactionFullResp unwraps the responses from a successful `push_transaction`.
 // FIXME: REVIEW the actual output, things have moved here.

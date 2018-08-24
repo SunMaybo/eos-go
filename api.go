@@ -291,7 +291,7 @@ func (api *API) cachedGetInfo() (*InfoResp, error) {
 	var info *InfoResp
 	var err error
 
-	if !api.lastGetInfoStamp.IsZero() && time.Now().Add(-1*time.Second).Before(api.lastGetInfoStamp) {
+	if !api.lastGetInfoStamp.IsZero() && time.Now().Add(-1 * time.Second).Before(api.lastGetInfoStamp) {
 		info = api.lastGetInfo
 	} else {
 		info, err = api.GetInfo()
@@ -400,6 +400,11 @@ func (api *API) GetCurrencyBalance(account AccountName, symbol string, code Acco
 	err = api.call("chain", "get_currency_balance", params, &out)
 	return
 }
+func (api *API) GetKeyAccount(public_key string) (out *AccountsResp, err error) {
+	params := M{"public_key": public_key}
+	err = api.call("history", "get_key_accounts", params, &out)
+	return
+}
 
 // See more here: libraries/chain/contracts/abi_serializer.cpp:58...
 
@@ -450,7 +455,6 @@ func (api *API) call(baseAPI string, endpoint string, body interface{}, out inte
 		fmt.Println(cnt.String())
 		fmt.Println("")
 	}
-
 	if err := json.Unmarshal(cnt.Bytes(), &out); err != nil {
 		return fmt.Errorf("Unmarshal: %s", err)
 	}
