@@ -1,7 +1,7 @@
 package system
 
 import (
-	eos "github.com/SunMaybo/eos-go"
+	"github.com/SunMaybo/eos-go"
 )
 
 // NewSellRAM will sell at current market price a given number of
@@ -12,6 +12,21 @@ func NewSellRAM(account eos.AccountName, bytes uint64) *eos.Action {
 		Name:    ActN("sellram"),
 		Authorization: []eos.PermissionLevel{
 			{Actor: account, Permission: eos.PermissionName("active")},
+		},
+		ActionData: eos.NewActionData(SellRAM{
+			Account: account,
+			Bytes:   bytes,
+		}),
+	}
+	return a
+}
+
+func NewSellRAMAndPermissonName(account eos.AccountName, bytes uint64, name eos.PermissionName) *eos.Action {
+	a := &eos.Action{
+		Account: AN("eosio"),
+		Name:    ActN("sellram"),
+		Authorization: []eos.PermissionLevel{
+			{Actor: account, Permission: name},
 		},
 		ActionData: eos.NewActionData(SellRAM{
 			Account: account,

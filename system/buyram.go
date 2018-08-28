@@ -1,7 +1,7 @@
 package system
 
 import (
-	eos "github.com/SunMaybo/eos-go"
+	"github.com/SunMaybo/eos-go"
 )
 
 func NewBuyRAM(payer, receiver eos.AccountName, eosQuantity uint64) *eos.Action {
@@ -10,6 +10,21 @@ func NewBuyRAM(payer, receiver eos.AccountName, eosQuantity uint64) *eos.Action 
 		Name:    ActN("buyram"),
 		Authorization: []eos.PermissionLevel{
 			{Actor: payer, Permission: PN("active")},
+		},
+		ActionData: eos.NewActionData(BuyRAM{
+			Payer:    payer,
+			Receiver: receiver,
+			Quantity: eos.NewEOSAsset(int64(eosQuantity)),
+		}),
+	}
+	return a
+}
+func NewBuyRAMAndPremissionName(payer, receiver eos.AccountName, eosQuantity uint64, name eos.PermissionName) *eos.Action {
+	a := &eos.Action{
+		Account: AN("eosio"),
+		Name:    ActN("buyram"),
+		Authorization: []eos.PermissionLevel{
+			{Actor: payer, Permission: PN(string(name))},
 		},
 		ActionData: eos.NewActionData(BuyRAM{
 			Payer:    payer,

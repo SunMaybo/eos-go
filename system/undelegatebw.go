@@ -1,7 +1,7 @@
 package system
 
 import (
-	eos "github.com/SunMaybo/eos-go"
+	"github.com/SunMaybo/eos-go"
 )
 
 // NewUndelegateBW returns a `undelegatebw` action that lives on the
@@ -14,8 +14,23 @@ func NewUndelegateBW(from, receiver eos.AccountName, unstakeCPU, unstakeNet eos.
 			{Actor: from, Permission: PN("active")},
 		},
 		ActionData: eos.NewActionData(UndelegateBW{
-			From:     from,
-			Receiver: receiver,
+			From:       from,
+			Receiver:   receiver,
+			UnstakeNet: unstakeNet,
+			UnstakeCPU: unstakeCPU,
+		}),
+	}
+}
+func NewUndelegateBWAndPermissionName(from, receiver eos.AccountName, unstakeCPU, unstakeNet eos.Asset, name eos.PermissionName) *eos.Action {
+	return &eos.Action{
+		Account: AN("eosio"),
+		Name:    ActN("undelegatebw"),
+		Authorization: []eos.PermissionLevel{
+			{Actor: from, Permission: name},
+		},
+		ActionData: eos.NewActionData(UndelegateBW{
+			From:       from,
+			Receiver:   receiver,
 			UnstakeNet: unstakeNet,
 			UnstakeCPU: unstakeCPU,
 		}),
@@ -24,8 +39,8 @@ func NewUndelegateBW(from, receiver eos.AccountName, unstakeCPU, unstakeNet eos.
 
 // UndelegateBW represents the `eosio.system::undelegatebw` action.
 type UndelegateBW struct {
-	From         eos.AccountName `json:"from"`
-	Receiver     eos.AccountName `json:"receiver"`
-	UnstakeNet   eos.Asset       `json:"unstake_net_quantity"`
-	UnstakeCPU   eos.Asset       `json:"unstake_cpu_quantity"`
+	From       eos.AccountName `json:"from"`
+	Receiver   eos.AccountName `json:"receiver"`
+	UnstakeNet eos.Asset       `json:"unstake_net_quantity"`
+	UnstakeCPU eos.Asset       `json:"unstake_cpu_quantity"`
 }

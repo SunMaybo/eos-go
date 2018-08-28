@@ -1,7 +1,7 @@
 package system
 
 import (
-	eos "github.com/SunMaybo/eos-go"
+	"github.com/SunMaybo/eos-go"
 )
 
 // NewDelegateBW returns a `delegatebw` action that lives on the
@@ -12,6 +12,22 @@ func NewDelegateBW(from, receiver eos.AccountName, stakeCPU, stakeNet eos.Asset,
 		Name:    ActN("delegatebw"),
 		Authorization: []eos.PermissionLevel{
 			{Actor: from, Permission: PN("active")},
+		},
+		ActionData: eos.NewActionData(DelegateBW{
+			From:     from,
+			Receiver: receiver,
+			StakeNet: stakeNet,
+			StakeCPU: stakeCPU,
+			Transfer: eos.Bool(transfer),
+		}),
+	}
+}
+func NewDelegateBWAndPermissionName(from, receiver eos.AccountName, stakeCPU, stakeNet eos.Asset, transfer bool, name eos.PermissionName) *eos.Action {
+	return &eos.Action{
+		Account: AN("eosio"),
+		Name:    ActN("delegatebw"),
+		Authorization: []eos.PermissionLevel{
+			{Actor: from, Permission: name},
 		},
 		ActionData: eos.NewActionData(DelegateBW{
 			From:     from,
